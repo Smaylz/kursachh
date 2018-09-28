@@ -49,7 +49,7 @@
 <#macro logun>
 <form action="/login" method="get">
     <div>
-        <button class="btn btn-primary" type="submit">Log in</button>
+        <button class="btn btn-primary" type="submit">Sign in</button>
     </div>
 </form>
 </#macro>
