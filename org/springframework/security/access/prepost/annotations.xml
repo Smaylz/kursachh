@@ -1,0 +1,5 @@
+<root>
+    <item name='org.springframework.security.access.prepost.PreAuthorize'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
