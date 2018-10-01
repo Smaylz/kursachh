@@ -22,6 +22,9 @@ public class UserSevice implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MailSender mailSender;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
@@ -75,7 +78,33 @@ public class UserSevice implements UserDetailsService {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
+        user.setActivateCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepo.save(user);
+
+        if (!StringUtils.isEmpty(user.getEmail())){
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "Welcome to Kursach. Please, visit next link: http://localhost:8080/activate/%s",
+                    user.getUsername(),
+                    user.getActivateCode()
+            );
+
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
+
+        return true;
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepo.findByActivateCode(code);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setActivateCode(null);
+
         userRepo.save(user);
 
         return true;

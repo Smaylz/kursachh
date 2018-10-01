@@ -1,5 +1,11 @@
 <#macro login path isRegisterForm>
 <form action="${path}" method="post">
+    <#if isRegisterForm>
+    <div class="form-group">
+        <label for="exampleInputEmail1"> Email: </label>
+        <input type="email" name="email" class="form-control col-sm-4" placeholder="Enter email"/>
+    </div>
+    </#if>
     <div class="form-group">
         <label for="exampleInputEmail1"> User Name : </label>
         <input type="text" name="username" value="<#if user??>${user.username}</#if>"
