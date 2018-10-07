@@ -12,12 +12,15 @@ import java.util.Set;
 @Entity
 @Table(name = "usr")
 public class User implements UserDetails {
+    private String email;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private String socialId;
     @NotBlank(message = "Username cannot be empty")
     private String username;
-    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     private boolean active;
@@ -49,6 +52,11 @@ public class User implements UserDetails {
 
     public boolean isUser(){
         return roles.contains(Role.USER);
+    }
+    public boolean isSocUser(){
+        if (socialId == null){
+            return false;
+        }return true;
     }
     public Long getId() {
         return id;
@@ -121,5 +129,21 @@ public class User implements UserDetails {
 
     public void setMessages(Set<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getSocialId() {
+        return socialId;
+    }
+
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

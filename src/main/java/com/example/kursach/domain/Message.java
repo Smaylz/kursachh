@@ -11,6 +11,7 @@ public class Message {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+
     @NotBlank(message = "Please fill in the text field ")
     @Length(max = 2048,message = "Message too long")
     private String text;
@@ -66,4 +67,6 @@ public class Message {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+
 }

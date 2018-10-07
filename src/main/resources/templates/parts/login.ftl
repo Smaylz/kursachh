@@ -1,6 +1,22 @@
 <#macro login path isRegisterForm>
-<form action="${path}" method="post">
-    <div class="form-group">
+<form action="${path}" method="post" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <#if !isRegisterForm>
+    <h6>login with:</h6>
+    <ul class="social-icons"  >
+        <li style="list-style: none;">
+            <a href="/login" style="width: 80px;
+                                    height: 80px;
+                                    line-height: 80px;
+                                    font-size: 25px;
+                                    color: red;">
+                <i class="fa fa-google" aria-hidden="true" > Google</i>
+            </a>
+        </li>
+    </ul>
+    <h6>Or</h6>
+    </#if>
+        <div class="form-group">
         <label for="exampleInputEmail1"> User Name : </label>
         <input type="text" name="username" value="<#if user??>${user.username}</#if>"
                class="form-control col-sm-4 ${(usernameError??)?string('is-invalid','')}" placeholder="Enter login"/>
@@ -37,6 +53,7 @@
     <div>
     <button type="submit" class="btn btn-primary"><#if isRegisterForm>Create<#else > Sign In</#if></div>
 </form>
+
 </#macro>
 
 <#macro logout>
@@ -47,7 +64,7 @@
 </form>
 </#macro>
 <#macro logun>
-<form action="/login" method="get">
+<form action="/loginpage" method="get">
     <div>
         <button class="btn btn-primary" type="submit">Log in</button>
     </div>

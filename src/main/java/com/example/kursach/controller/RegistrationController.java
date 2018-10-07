@@ -29,9 +29,12 @@ public class RegistrationController {
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if(isConfirmEmpty){
             model.addAttribute("password2Error","Password confirmation cannot be empty");
-
         }
-        if(user.getPassword() != null && !user.getPassword().equals(passwordConfirm)){
+        if( user.getPassword().equals("")){
+
+            model.addAttribute("passwordError","Password cannot be empty");
+        }
+        if(user.getPassword().equals("") && !user.getPassword().equals(passwordConfirm)){
 
             model.addAttribute("passwordError", "Passwords are different!");
             return "registration";
@@ -47,6 +50,6 @@ public class RegistrationController {
             model.addAttribute("usernameError", "User exists!");
             return "registration";
         }
-        return "redirect:/login";
+        return "redirect:/loginpage";
     }
 }

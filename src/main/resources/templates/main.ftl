@@ -10,6 +10,10 @@
         </form>
     </div>
 </div>
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+        aria-expanded="false" aria-controls="collapseExample">
+    Message Add
+</button>
 <#include "parts/messageEdit.ftl" />
 <#include "parts/messageList.ftl" />
 </@c.page>

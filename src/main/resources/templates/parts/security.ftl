@@ -8,7 +8,9 @@ know = Session.SPRING_SECURITY_CONTEXT??
         name= user.getUsername()
         isAdmin = user.isAdmin()
         isUser = user.isUser()
+        isSocUser = user.isSocUser()
         currentUserId = user.getId()
+
 
     >
     <#else>
@@ -16,6 +18,7 @@ know = Session.SPRING_SECURITY_CONTEXT??
         name = "unknown"
         isAdmin = false
         isUser = false
+        isSocUser = false
         currentUserId = -1
     >
 </#if>
