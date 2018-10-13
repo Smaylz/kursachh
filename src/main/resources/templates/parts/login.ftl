@@ -1,6 +1,6 @@
 <#macro login path isRegisterForm>
 <form action="${path}" method="post" >
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <#if !isRegisterForm>
     <h6>login with:</h6>
     <ul class="social-icons"  >
@@ -15,6 +15,18 @@
         </li>
     </ul>
     <h6>Or</h6>
+    </#if>
+    <#if isRegisterForm>
+    <div class="form-group">
+        <label for="exampleInputEmail1"> Email: </label>
+        <input type="email" name="email"
+               class="form-control col-sm-4 ${(passwordError??)?string('is-invalid','')}" placeholder="Enter email"/>
+          <#if passwordError??>
+                    <div class="invalid-feedback">
+                        ${passwordError}
+                    </div>
+          </#if>
+    </div>
     </#if>
         <div class="form-group">
         <label for="exampleInputEmail1"> User Name : </label>

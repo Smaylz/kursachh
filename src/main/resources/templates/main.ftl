@@ -1,6 +1,7 @@
 <#import "parts/common.ftl" as c>
-
+<#include "parts/security.ftl">
 <@c.page>
+
 <div class="form-row">
     <div class="form-group col-md-6">
         <form method="get" action="/main" class="form-inline">
@@ -10,10 +11,12 @@
         </form>
     </div>
 </div>
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
-        aria-expanded="false" aria-controls="collapseExample">
-    Message Add
-</button>
+    <#if isUser>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Message Add
+        </button>
+    </#if>
 <#include "parts/messageEdit.ftl" />
 <#include "parts/messageList.ftl" />
 </@c.page>

@@ -10,11 +10,16 @@ public class Message {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+    private long rang;
 
+    @NotBlank(message = "Please fill in the name field ")
+    @Length(max = 100,message = "Name too long")
+    private String name;
 
     @NotBlank(message = "Please fill in the text field ")
     @Length(max = 2048,message = "Message too long")
     private String text;
+
     @NotBlank(message = "Please fill in the tag field ")
     @Length(max = 255,message = "Message too long")
     private String tag;
@@ -22,6 +27,8 @@ public class Message {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
+
+    private String filename;
 
     public Message() {
     }
@@ -68,5 +75,27 @@ public class Message {
         this.tag = tag;
     }
 
+    public String getFilename() {
+        return filename;
+    }
 
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getRang() {
+        return rang;
+    }
+
+    public void setRang(long rang) {
+        this.rang = rang;
+    }
 }

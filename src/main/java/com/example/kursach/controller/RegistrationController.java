@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,12 +30,13 @@ public class RegistrationController {
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if(isConfirmEmpty){
             model.addAttribute("password2Error","Password confirmation cannot be empty");
+
         }
         if( user.getPassword().equals("")){
 
             model.addAttribute("passwordError","Password cannot be empty");
         }
-        if(user.getPassword().equals("") && !user.getPassword().equals(passwordConfirm)){
+        if(!user.getPassword().equals("") && !user.getPassword().equals(passwordConfirm)){
 
             model.addAttribute("passwordError", "Passwords are different!");
             return "registration";
@@ -51,5 +53,16 @@ public class RegistrationController {
             return "registration";
         }
         return "redirect:/loginpage";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Model model, @PathVariable String code){
+        boolean isActivated = userSevice.activateUser(code);
+        if(isActivated){
+            model.addAttribute("message","User successfully activated");
+        }else{
+            model.addAttribute("message","Activation vode is not found");
+        }
+        return "loginpage";
     }
 }
