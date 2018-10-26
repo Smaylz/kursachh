@@ -5,7 +5,7 @@
             <div class="form-group">
                 <div class="form-group">
                     <input type="text" class="form-control ${(nameError??)?string('is-invalid','')}"
-                           value="<#if message??>${message.name}</#if>" name="name" placeholder="Enter name"/>
+                           value="<#if message??>${message.name}</#if>" name="name" placeholder="<@spring.message "enter.name"/>"/>
                 <#if textError??>
                     <div class="invalid-feedback">
                         ${nameError}
@@ -13,7 +13,7 @@
                 </#if>
                 </div>
                 <input type="text" class="form-control ${(textError??)?string('is-invalid','')}"
-                       value="<#if message??>${message.text}</#if>" name="text" placeholder="Enter message"/>
+                       value="<#if message??>${message.text}</#if>" name="text" placeholder="<@spring.message "enter.message"/>"/>
                 <#if textError??>
                     <div class="invalid-feedback">
                         ${textError}
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control ${(tagError??)?string('is-invalid','')}" name="tag"
-                       value="<#if message??>${message.tag}</#if>" placeholder="Tag">
+                       value="<#if message??>${message.tag}</#if>" placeholder="<@spring.message "enter.tag"/>">
                 <#if tagError??>
                     <div class="invalid-feedback">
                         ${tagError}
@@ -30,11 +30,14 @@
                 </#if>
             </div>
             <div class="form-group">
-                <input type="file" class="form-control" name="file">
+                <div class="custom-file">
+                    <input type="file" id="customFile" name="file">
+                    <label class="custom-file-label" for="customFile"><@spring.message "choose.file"/></label>
+                </div>
             </div>
             <input type="hidden" name="id" value="<#if message??>${message.id}</#if>"/>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary"><@spring.message "save"/></button>
             </div>
         </form>
     </div>

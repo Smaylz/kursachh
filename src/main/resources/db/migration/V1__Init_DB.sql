@@ -5,7 +5,7 @@ id int8 not null,
 filename varchar(255),
 name varchar(255),
 tag varchar(255),
-text varchar(2048) not null,
+text TEXT not null,
 user_id int8,
 rang int8,
 primary key (id));
@@ -43,6 +43,7 @@ active boolean not null,
 email varchar(255),
 password varchar(255),
 username varchar(255) not null,
+date_of_registration date ,
 primary key (id));
 
 alter table if exists message

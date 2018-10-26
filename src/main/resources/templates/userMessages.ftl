@@ -1,7 +1,7 @@
 <#import "parts/common.ftl" as c>
+<#import "/spring.ftl" as spring/>
 
 <@c.page>
-suka
 <#if isCurrentUser>
     <#include "parts/messageEdit.ftl" />
 </#if>

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -26,11 +26,18 @@ public class CommentController {
     private LikeRepo likeRepo;
 
     @PostMapping("main/comment/delete")
-    public String commentDelete(@RequestParam("commentId") Comment comment) {
-
+    public String commentDelete(@RequestParam("commentId") Comment comment,
+                                RedirectAttributes redirectAttributes,
+                                @RequestHeader(required = false) String referer) {
+        Iterable<LikeComment> likes = likeRepo.findAll();
+        for (LikeComment like: likes) {
+            if(like.getComment_id() == comment.getId()){
+                likeRepo.delete(like);
+            }
+        }
         commentRepo.delete(comment);
 
-        return "redirect:/main";
+        return "redirect:" + ControllerUtils.path(redirectAttributes,referer);
     }
 
     @PostMapping("add")
@@ -38,7 +45,9 @@ public class CommentController {
             @AuthenticationPrincipal User user,
             @Valid Comment comment,
             BindingResult bindingResult,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
     ) {
         comment.setAuthor(user);
         if (bindingResult.hasErrors()) {
@@ -50,16 +59,17 @@ public class CommentController {
             commentRepo.save(comment);
         }
         Iterable<Comment> comments = commentRepo.findAll();
-
         model.addAttribute("comments", comments);
 
-        return "redirect:/main";
+        return "redirect:" + ControllerUtils.path(redirectAttributes,referer);
     }
     @PostMapping("main/comment/update")
     public String updateMessage(
             @AuthenticationPrincipal User currentUser,
             @RequestParam("id")Comment comment,
-            @RequestParam("text") String text
+            @RequestParam("text") String text,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
     ){
         if(comment.getAuthor().equals(currentUser)){
             if(!StringUtils.isEmpty(text)){
@@ -67,28 +77,40 @@ public class CommentController {
             }
             commentRepo.save(comment);
         }
-        return "redirect:/main";
-    }
-    @PostMapping("main/like")
-    public String like(@AuthenticationPrincipal User user, @RequestParam("commentId") Comment comment, LikeComment likeNew){
 
-        int cou = 0;
-        Iterable<LikeComment> likes = likeRepo.findAll();
-        for (LikeComment like :likes) {
-            if(like.getAuthor().getId() == user.getId() && like.getComment_id() == comment.getId()){
-                comment.setLikec(comment.getLikec()-1);
-                likeRepo.delete(like);
-                cou=1;
-                break;
-            }
-        }
-        if(cou != 1) {
-            comment.setLikec(comment.getLikec()+1);
-            likeNew.setAuthor(user);
-            likeNew.setComment_id(comment.getId());
-            likeRepo.save(likeNew);
-        }
+        return "redirect:" + ControllerUtils.path(redirectAttributes,referer);
+    }
+
+    @GetMapping("main/{comment}/like")
+    public String like(@AuthenticationPrincipal User user,
+                       @PathVariable Comment comment,
+                       LikeComment likeNew,
+                       RedirectAttributes redirectAttributes,
+                       @RequestHeader(required = false) String referer){
+
+        comment=LikeAdd(comment,user,likeNew);
         commentRepo.save(comment);
-        return "redirect:/user/profile/"+ user.getId();
+
+        return "redirect:" + ControllerUtils.path(redirectAttributes,referer);
+}
+
+private Comment LikeAdd(Comment comment,User user,LikeComment likeNew){
+    int cou = 0;
+    Iterable<LikeComment> likes = likeRepo.findAll();
+    for (LikeComment like :likes) {
+        if(like.getAuthor().getId() == user.getId() && like.getComment_id() == comment.getId()){
+            comment.setLikec(comment.getLikec()-1);
+            likeRepo.delete(like);
+            cou=1;
+            break;
+        }
+    }
+    if(cou != 1) {
+        comment.setLikec(comment.getLikec()+1);
+        likeNew.setAuthor(user);
+        likeNew.setComment_id(comment.getId());
+        likeRepo.save(likeNew);
+    }
+    return comment;
 }
 }

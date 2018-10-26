@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,13 +54,20 @@ public class UserSevice implements UserDetailsService {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
     }
 
     public void delete(User user) {
         userRepo.delete(user);
+    }
+
+    public void block(User user){
+        if(!user.isActive()){
+            user.setActive(true);
+        }else{
+            user.setActive(false);
+        }
+        userRepo.save(user);
     }
 
     public void updateProfile(User user, String password) {
@@ -76,10 +84,12 @@ public class UserSevice implements UserDetailsService {
             return false;
         }
 
-        user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setDateOfRegistration(LocalDate.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(false);
+
         userRepo.save(user);
 
         if (!StringUtils.isEmpty(user.getEmail())) {
@@ -89,7 +99,6 @@ public class UserSevice implements UserDetailsService {
             );
             mailSender.send(user.getEmail(), "Activation code", message);
         }
-
         return true;
     }
 
@@ -100,8 +109,9 @@ public class UserSevice implements UserDetailsService {
             return false;
         }
         user.setActivationCode(null);
-
+        user.setActive(true);
         userRepo.save(user);
         return true;
     }
+
 }

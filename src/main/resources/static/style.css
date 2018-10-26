@@ -1,0 +1,54 @@
+#language{width: 5%;}
+
+#rang{
+    border:2px solid #fff51e;
+    color: red;
+
+}
+
+.btn-rang5{
+    border: 1px solid #00ff16;
+    background-color: white;
+    color: #00ff16;
+}
+.btn-outline-rang5:hover{
+    color: black;
+    background-color: #00ff16;
+}
+
+.btn-rang4{
+    border: 1px solid #bbff7d;
+    background-color: white;
+    color: #bbff7d;
+}
+.btn-outline-rang4:hover{
+    color: black;
+    background-color: #bbff7d;
+}
+.btn-rang3{
+    border: 1px solid #fff51e;
+    background-color: white;
+    color: #fff51e;
+}
+.btn-outline-rang3:hover{
+    color: black;
+    background-color: #fff51e;
+}
+.btn-rang2{
+    border: 1px solid #ff8911;
+    background-color: white;
+    color: #ff8911;
+}
+.btn-outline-rang2:hover{
+    color: black;
+    background-color: #ff8911;
+}
+.btn-rang1{
+    border: 1px solid #ff000d;
+    background-color: white;
+    color: #ff000d;
+}
+.btn-outline-rang1:hover{
+    color: black;
+    background-color: #ff000d;
+}

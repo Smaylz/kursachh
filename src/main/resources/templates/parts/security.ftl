@@ -10,8 +10,6 @@ know = Session.SPRING_SECURITY_CONTEXT??
         isUser = user.isUser()
         isSocUser = user.isSocUser()
         currentUserId = user.getId()
-
-
     >
     <#else>
     <#assign

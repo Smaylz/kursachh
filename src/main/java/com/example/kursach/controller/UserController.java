@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -49,10 +52,26 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("delete")
-    public String userDelete(@RequestParam("userId") User user){
+    @PostMapping("delete/{user}")
+    public String userDelete(@PathVariable User user,
+                             Principal principal,
+                             HttpServletRequest request,
+                             HttpServletResponse response){
+            ControllerUtils.closeSession(user,principal,request,response);
+            userSevice.delete(user);
 
-        userSevice.delete(user);
+        return "redirect:/user";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("block/{user}")
+    public String userBlock(@PathVariable User user,
+                             Principal principal,
+                             HttpServletRequest request,
+                             HttpServletResponse response){
+
+        ControllerUtils.closeSession(user,principal,request,response);
+        userSevice.block(user);
 
         return "redirect:/user";
     }
