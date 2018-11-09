@@ -11,7 +11,7 @@ import java.util.Properties;
 @Configuration
 public class MailConfig {
     /**
-     * setting mail
+     * setting mail 1
      */
     @Value("${spring.mail.host}")
     private String host;
