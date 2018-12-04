@@ -29,7 +29,7 @@ public class RegistrationController {
     public String addUser(@RequestParam("password2") String passwordConfirm, @Valid User user, BindingResult bindingResult, Model model) {
         boolean isConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
         if(isConfirmEmpty){
-            model.addAttribute("password2Error","Password confirmation cannot be empty");
+            model.addAttribute("password2Error","Password confirmation cannot be emdois");
 
         }
         if( user.getPassword().equals("")){
